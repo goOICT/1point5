@@ -1,0 +1,33 @@
+@import 'config';
+
+.default {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-stretch: normal;
+    letter-spacing: normal;
+    font-weight: normal;
+    font-style: normal;
+}
+
+@mixin ws-regular {
+    font-family: "Work Sans", sans-serif;
+    @extend .default;
+}
+
+@mixin ws-medium {
+    font-family: "Work Sans", sans-serif;
+    @extend .default;
+    font-weight: 500;
+}
+
+@mixin breakpoint-up-value($value) {
+    @media (min-width: $value) {
+        @content;
+    }
+}
+
+@mixin breakpoint-down-value($value) {
+    @media (max-width: $value) {
+        @content;
+    }
+}
