@@ -1,0 +1,14 @@
+@import '~bulma/sass/utilities/initial-variables';
+@import '~bulma/sass/utilities/functions';
+@import './config';
+
+// Colors
+$primary: $color-blue-1;
+
+// Text Color
+//$text: $color-gray;
+
+$body-background-color: $color-blue-1;
+
+@import '~bulma/bulma';
+@import '~buefy/src/scss/buefy';
