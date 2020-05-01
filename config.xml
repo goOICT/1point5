@@ -1,5 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="app.onepointfive" version="1.0.2" xmlns="http://www.w3.org/ns/widgets">
+<widget id="app.onepointfive" version="1.0.2"
+        xmlns="http://www.w3.org/ns/widgets"
+        xmlns:android="http://schemas.android.com/apk/res/android">
     <name short="1point5">app 1point5</name>
     <description>
         1point5 - Please keep safe distance
@@ -19,6 +21,10 @@
     <preference name="StatusBarBackgroundColor" value="#000000"/>
     <platform name="android">
         <allow-intent href="market:*"/>
+        <config-file target="AndroidManifest.xml" parent="/manifest">>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-feature android:name="android.hardware.location.gps" android:required="false"/>
+        </config-file>
         <preference name="SplashMaintainAspectRatio" value="true"/>
         <preference name="StatusBarOverlaysWebView" value="true"/>
         <preference name="Orientation" value="portrait"/>
