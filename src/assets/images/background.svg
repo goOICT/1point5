@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 719 1227">
+    <defs>
+        <linearGradient id="b" x1="74.198%" x2="28.349%" y1="-23.613%" y2="113.059%">
+            <stop offset="0%" stop-color="#0065C0"/>
+            <stop offset="56.282%" stop-color="#00B2DB"/>
+            <stop offset="100%" stop-color="#00D7D5"/>
+        </linearGradient>
+        <path id="a" d="M0 0h719v1227H0z"/>
+    </defs>
+    <use fill="url(#b)" fill-rule="evenodd" xlink:href="#a"/>
+</svg>

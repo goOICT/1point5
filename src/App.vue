@@ -151,6 +151,9 @@
 
         onDiscoverDevice(d: any) {
             console.log(d);
+            const re = this.parseAdvertisingData(this.arrayBufferToIntArray(d.advertising));
+            console.log(re);
+
             if (this.filterDevices(d) || !this.shouldAlert(d.rssi)) return;
 
             const match = this.devices.find((e: any) => e.id === d.id);
@@ -256,6 +259,38 @@
         onHasAlertChange(v: boolean) {
             const root = document.getElementsByTagName('html')[0];
             v ? root.classList.add('has-alert') : root.classList.remove('has-alert');
+        }
+
+        arrayBufferToIntArray(buffer: any) {
+            let result;
+            if (buffer) {
+                const typedArray = new Uint8Array(buffer);
+                result = [];
+                for (let i = 0; i < typedArray.length; i++) {
+                    result[i] = typedArray[i];
+                }
+            }
+            return result;
+        };
+
+        parseAdvertisingData(bytes: any) {
+            let length;
+            let type;
+            let data;
+            let i = 0;
+            const advertisementData: any = {};
+
+            while (length !== 0) {
+                length = bytes[i] & 0xFF;
+                i++;
+                type = bytes[i] & 0xFF;
+                i++;
+                data = bytes.slice(i, i + length - 1);
+                i += length - 2;
+                i++;
+                advertisementData[type] = data;
+            }
+            return advertisementData;
         }
     }
 </script>

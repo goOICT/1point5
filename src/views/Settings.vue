@@ -41,7 +41,7 @@
                     </h2>
                     <ul class="device-list">
                         <li
-                            v-for="(device) in this.excludes"
+                            v-for="(device) in excludes"
                             :key="device.id"
                         >
                             <UiIcon
@@ -50,11 +50,8 @@
                             />
                             <div class="user">
                                 <span class="name">
-                                    {{ device.name }}
+                                    {{ device.name || 'Unknown device' }}
                                 </span>
-                                <strong>
-                                    {{ device.distance }} cm
-                                </strong>
                             </div>
 
                             <UiIcon
@@ -156,7 +153,7 @@
         left: 0;
         top: 0;
         bottom: 0;
-        background: rgba($color-blue-3, .95);
+        background-image: linear-gradient(-180deg, rgba(175, 214, 248, 0.94) 1%, rgba(175, 214, 248, 0.94) 29%, rgba(175, 214, 248, 0.94) 74%, #FFFFFF 100%);
     }
 
     .settings-options {
