@@ -106,7 +106,7 @@
             // Check if there are devices nearby and trigger the alert
             setInterval(() => {
                 this.setAlert();
-            }, 1000);
+            }, 2000);
 
             // Clear out of range devices
             setInterval(() => {
