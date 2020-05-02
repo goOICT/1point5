@@ -1,0 +1,105 @@
+{
+    "name": "app.onepointfive",
+    "displayName": "1point5",
+    "version": "1.0.2",
+    "description": "1point5 - The app that helps you with social distancing.",
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint",
+        "android": "cordova run android --device",
+        "ios": "cordova run ios --device",
+        "ios:build": "cordova build ios",
+        "android:release": "cordova build --release android",
+        "add-ios": "cordova platform add ios",
+        "add-android": "cordova platform add android",
+        "postinstall": "npm run add-android && npm run add-ios"
+    },
+    "keywords": [
+        "un",
+        "until",
+        "1point5",
+        "onepointfive",
+        "social-distance"
+    ],
+    "author": "Renato Cardoso",
+    "contributors": [
+        {
+            "name": "Renato Cardoso",
+            "email": "re2005@gmail.com",
+            "url": "https://renato.amsterdam"
+        }
+    ],
+    "license": "AGPL-3.0-or-later",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/UNTILabs/1point5"
+    },
+    "dependencies": {
+        "buefy": "^0.8.13",
+        "cordova-android": "^8.1.0",
+        "cordova-ios": "^5.1.1",
+        "cordova-plugin-ble-central": "^1.2.4",
+        "cordova-plugin-bluetoothle": "^4.5.10",
+        "cordova-plugin-device": "^2.0.3",
+        "cordova-plugin-dialogs": "^2.0.2",
+        "cordova-plugin-open-app-settings": "^0.1.3",
+        "cordova-plugin-splashscreen": "^5.0.3",
+        "cordova-plugin-statusbar": "^2.4.3",
+        "cordova-plugin-vibration": "^3.1.1",
+        "cordova-plugin-wkwebview-engine": "^1.2.1",
+        "core-js": "^3.6.4",
+        "svg-inline-loader": "^0.8.2",
+        "vue": "^2.6.11",
+        "vue-class-component": "^7.2.2",
+        "vue-property-decorator": "^8.3.0",
+        "vue-router": "^3.1.5",
+        "vuex": "^3.1.3",
+        "vuex-class": "^0.3.2",
+        "vuex-persistedstate": "^3.0.0"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^2.18.0",
+        "@typescript-eslint/parser": "^2.18.0",
+        "@vue/cli-plugin-babel": "~4.2.0",
+        "@vue/cli-plugin-eslint": "~4.2.0",
+        "@vue/cli-plugin-router": "~4.2.0",
+        "@vue/cli-plugin-typescript": "~4.2.0",
+        "@vue/cli-service": "~4.2.0",
+        "@vue/eslint-config-standard": "^5.1.0",
+        "@vue/eslint-config-typescript": "^5.0.1",
+        "eslint": "^6.7.2",
+        "eslint-plugin-import": "^2.20.1",
+        "eslint-plugin-node": "^11.0.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-standard": "^4.0.0",
+        "eslint-plugin-vue": "^6.1.2",
+        "lint-staged": "^9.5.0",
+        "node-sass": "^4.12.0",
+        "sass-loader": "^8.0.2",
+        "typescript": "~3.7.5",
+        "vue-template-compiler": "^2.6.11",
+        "cordova-plugin-whitelist": "^1.3.4"
+    },
+    "cordova": {
+        "plugins": {
+            "cordova-plugin-whitelist": {},
+            "cordova-plugin-ble-central": {
+                "BLUETOOTH_USAGE_DESCRIPTION": "Bluetooth is required to calculate the distance between your device and others around you"
+            },
+            "cordova-plugin-vibration": {},
+            "cordova-plugin-dialogs": {},
+            "cordova-plugin-wkwebview-engine": {},
+            "cordova-plugin-statusbar": {},
+            "cordova-plugin-splashscreen": {},
+            "cordova-plugin-open-app-settings": {},
+            "cordova-plugin-device": {},
+            "cordova-plugin-bluetoothle": {}
+        },
+        "platforms": [
+            "android",
+            "ios"
+        ]
+    }
+}
