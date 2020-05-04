@@ -80,7 +80,7 @@
         bluetoothWasOff = false;
 
         // For when start to advertise/scan with specific UUID
-        serviceId = '0000FEAA-0000-1000-8000-00805F9B34FB';
+        serviceId = 'FEAA';
 
         @deviceStore.Getter('excludes') excludes!: any;
         @deviceStore.Getter('devices') devices!: any;
@@ -134,23 +134,11 @@
         }
 
         collectDevices() {
-            window.ble.startScanWithOptions([], { reportDuplicates: true }, this.onDiscoverDevice, this.onError);
-        }
-
-        filterDevices(device: any) {
-            const devicesList = [
-                'TV',
-                'MacBook',
-                '[AV] Samsung'
-            ];
-            return devicesList.some(d => {
-                if (!device.name) return false;
-                return device.name.indexOf(d) > -1;
-            });
+            window.ble.startScanWithOptions([this.serviceId], { reportDuplicates: true }, this.onDiscoverDevice, this.onError);
         }
 
         onDiscoverDevice(d: any) {
-            if (this.filterDevices(d) || !this.shouldAlert(d.rssi)) return;
+            if (!this.shouldAlert(d.rssi)) return;
 
             const match = this.devices.find((e: any) => e.id === d.id);
             const distance = (d.rssi * -2.7).toFixed(2);
@@ -225,8 +213,8 @@
 
         tryAdvertising() {
             const serviceParams = {
-                // services: [this.serviceId],
-                // service: this.serviceId,
+                services: [this.serviceId],
+                service: this.serviceId,
                 name: `${window.device.platform} ${window.device.model}`,
                 mode: 'balanced',
                 txPowerLevel: 'high',
