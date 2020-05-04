@@ -1,7 +1,7 @@
 {
     "name": "app.onepointfive",
     "displayName": "1point5",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "1point5 - The app that helps you with social distancing.",
     "scripts": {
         "serve": "vue-cli-service serve",
