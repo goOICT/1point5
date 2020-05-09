@@ -1,56 +1,5 @@
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 
-const devicesMock = [
-    {
-        rssi: -60,
-        distance: 145,
-        isDanger: true,
-        name: ''
-    },
-    {
-        rssi: -60,
-        distance: 145,
-        isDanger: true,
-        name: 'Moto e6'
-    },
-    {
-        rssi: -60,
-        distance: 145,
-        isDanger: true,
-        name: 'Moto e6'
-    },
-    {
-        rssi: -60,
-        distance: 145,
-        isDanger: true,
-        name: 'Moto e6'
-    },
-    {
-        rssi: -60,
-        distance: 145,
-        isDanger: true,
-        name: 'Moto e6'
-    },
-    {
-        rssi: -60,
-        distance: 145,
-        isDanger: true,
-        name: 'Moto e6'
-    },
-    {
-        rssi: -60,
-        distance: 145,
-        isDanger: true,
-        name: 'Moto e6'
-    },
-    {
-        rssi: -60,
-        distance: 145,
-        isDanger: true,
-        name: 'Moto e6'
-    }
-];
-
 export const state: any = {
     devices: [],
     mute: false,
@@ -59,8 +8,7 @@ export const state: any = {
     settings: false,
     vibration: false,
     scanAllDevices: true,
-    version: '1.0.4',
-    devicesMock: devicesMock
+    notification: true
 };
 
 const getters: GetterTree<any, any> = {
@@ -71,6 +19,7 @@ const getters: GetterTree<any, any> = {
     distance: state => state.distance,
     intro: state => state.intro,
     vibration: state => state.vibration,
+    notification: state => state.notification,
     scanAllDevices: state => state.scanAllDevices
 };
 
@@ -100,7 +49,7 @@ const mutations: MutationTree<any> = {
     },
     cleanDevices(state) {
         state.devices.forEach((d: any, index: number) => {
-            if (d.timestamp + 3000 < Date.now()) {
+            if (d.timestamp + 3000 < Date.now() && !d.excluded) {
                 state.devices.splice(index, 1);
             }
         });
@@ -113,6 +62,12 @@ const mutations: MutationTree<any> = {
     },
     toggleScanAllDevices(state) {
         state.scanAllDevices = !state.scanAllDevices;
+    },
+    updateScanAllDevices(state, v) {
+        state.scanAllDevices = v;
+    },
+    toggleNotification(state) {
+        state.notification = !state.notification;
     }
 };
 

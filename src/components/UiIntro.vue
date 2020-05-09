@@ -27,13 +27,16 @@
             class="slide-2"
         >
             <p>
-                To help you remind to keep distance we use the Bluetooth signal of your device.
-                If another phone enters your surroundings we want to alert you to keep distance via a vibration.
+                You can choose if the APP will alert you
+                when any other device enters your surroundings
+                or ONLY devices that has the 1point5 app installed.
             </p>
             <p>
-                <strong>Please select a minimum distance</strong>
+                <strong>
+                    In any case you will receive an alert to keep a minimum safe distance.
+                </strong>
             </p>
-            <UiDistance />
+            <UiScanOption />
             <p class="no-track">
                 <strong>We do not share, store or track your data in any way.</strong>
             </p>
@@ -56,9 +59,10 @@
     import { Component, Vue } from 'vue-property-decorator';
     import UiDistance from '@/components/UiDistance.vue';
     import UiIcon from '@/components/UiIcon.vue';
+    import UiScanOption from '@/components/UiScanOption.vue';
 
     @Component({
-        components: { UiIcon, UiDistance }
+        components: { UiScanOption, UiIcon, UiDistance }
     })
     export default class UiIntro extends Vue {
         active = 1;
@@ -89,6 +93,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        color: $color-blue-0;
 
         &.active-2 {
             margin-top: 4 * $margin;
@@ -116,21 +121,21 @@
     }
 
     p {
-        font-size: 14px;
+        font-size: 12px;
         @include ws-regular;
-        width: 84%;
+        width: 90%;
         margin: auto;
 
         strong {
             display: block;
-            margin: 2 * $margin 0;
+            margin: $margin 0;
         }
     }
 
     .no-track {
         width: 90%;
         font-size: 10px;
-        margin-top: 6 * $margin;
+        margin-top: 3 * $margin;
     }
 
     .logo {
@@ -148,6 +153,10 @@
 
     .slide-2 {
         position: relative;
+
+        p, strong {
+            color: $color-blue-0;
+        }
     }
 
 </style>

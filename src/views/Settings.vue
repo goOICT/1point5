@@ -16,10 +16,20 @@
                 </li>
                 <li @click="toggleVibration">
                     <UiIcon
+                        class="vibration"
                         :icon="vibration ? 'vibration-off' : 'vibration-on'"
                     />
                     Vibration
                     <strong>{{ !vibration ? 'on' : 'off' }}</strong>
+                </li>
+                <li @click="toggleNotification">
+                    <UiIcon
+                        :class="notification ? 'on' : 'off'"
+                        class="app"
+                        icon="notifications"
+                    />
+                    Notification
+                    <strong>{{ notification ? 'on' : 'off' }}</strong>
                 </li>
                 <li @click="toggleScanAllDevices">
                     <UiIcon
@@ -27,11 +37,10 @@
                         class="app"
                         icon="app"
                     />
-                    1point5 only
+                    Only 1point5
                     <strong>{{ !scanAllDevices ? 'on' : 'off' }}</strong>
                 </li>
             </ul>
-            <UiDistance />
 
             <div class="device-list-wrapper">
                 <div v-if="excludes.length === 0">
@@ -95,10 +104,12 @@
         @deviceStore.Getter('mute') mute!: boolean;
         @deviceStore.Getter('vibration') vibration!: boolean;
         @deviceStore.Getter('scanAllDevices') scanAllDevices!: boolean;
+        @deviceStore.Getter('notification') notification!: boolean;
         @deviceStore.Mutation('toggleMute') toggleMute!: void;
         @deviceStore.Mutation('toggleSettings') toggleSettings!: void;
         @deviceStore.Mutation('toggleVibration') toggleVibration!: void;
         @deviceStore.Mutation('toggleScanAllDevices') toggleScanAllDevices!: void;
+        @deviceStore.Mutation('toggleNotification') toggleNotification!: void;
 
         @Prop() bluetooth!: boolean;
 
@@ -169,10 +180,11 @@
         display: flex;
         margin-top: 2 * $margin;
         margin-bottom: 3 * $margin;
+        flex-wrap: wrap;
 
         li {
-            flex: 1;
-            margin: 0;
+            margin-bottom: 3 * $margin;
+            flex: 50%;
             display: flex;
             font-size: 14px;
             line-height: 18px;
@@ -186,7 +198,7 @@
     }
 
     .device-list-wrapper {
-        margin-top: 7 * $margin;
+        margin-top: 3 * $margin;
 
         &:before {
             width: 90%;
@@ -215,9 +227,15 @@
 
     .app {
         fill: $color-blue-0;
+        stroke: $color-blue-0;
 
         &.off {
             fill: $color-blue-4;
+            stroke: $color-blue-4;;
         }
+    }
+
+    .vibration {
+        stroke: $color-blue-4;
     }
 </style>

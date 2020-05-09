@@ -1,47 +1,47 @@
 <template>
-    <div id="app">
+    <div id='app'>
         <UiIntro
-            v-if="!intro"
+            v-if='!intro'
         />
         <div v-else>
-            <transition name="fade">
+            <transition name='fade'>
                 <Settings
-                    v-if="$store.state.deviceStore.settings"
-                    :bluetooth="bluetoothWasOff"
+                    v-if='$store.state.deviceStore.settings'
+                    :bluetooth='bluetoothWasOff'
                 />
             </transition>
-            <UiNoBluetooth v-if="bluetoothWasOff" />
+            <UiNoBluetooth v-if='bluetoothWasOff' />
             <figure
                 v-else
-                class="distance-logo"
+                class='distance-logo'
             >
                 <img
-                    v-if="!hasAlert"
-                    src="./assets/images/thanks-for-keeping-distance.svg"
-                    alt="Thanks!"
+                    v-if='!hasAlert'
+                    src='./assets/images/thanks-for-keeping-distance.svg'
+                    alt='Thanks!'
                 >
                 <img
                     v-else
-                    src="./assets/images/keep-your-distance.svg"
-                    alt="Thanks!"
+                    src='./assets/images/keep-your-distance.svg'
+                    alt='Thanks!'
                 >
             </figure>
-            <section class="wrapper">
+            <section class='wrapper'>
                 <Home />
-                <div class="app-footer">
-                    <figure class="un-logo">
+                <div class='app-footer'>
+                    <figure class='un-logo'>
                         <UiIcon
-                            icon="until-logo"
+                            icon='until-logo'
                         />
                     </figure>
                     <div
-                        class="button-settings"
-                        @click="toggleSettings"
+                        class='button-settings'
+                        @click='toggleSettings'
                     >
                         SETTINGS
                         <UiIcon
-                            icon="settings"
-                            size="12"
+                            icon='settings'
+                            size='12'
                         />
                     </div>
                 </div>
@@ -50,7 +50,7 @@
     </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
     import { Component, Vue, Watch } from 'vue-property-decorator';
     import { namespace } from 'vuex-class';
     import UiIntro from '@/components/UiIntro.vue';
@@ -78,21 +78,23 @@
     export default class App extends Vue {
         hasAlert = false;
         bluetoothWasOff = false;
+        isBackground = false;
 
         // For when start to advertise/scan with specific UUID
         serviceId = 'FEAA';
 
-        @deviceStore.Getter('excludes') excludes!: any;
         @deviceStore.Getter('devices') devices!: any;
         @deviceStore.Getter('mute') mute!: boolean;
         @deviceStore.Getter('intro') intro!: boolean;
         @deviceStore.Getter('vibration') vibration!: boolean;
-        @deviceStore.Getter('deviceName') deviceName!: boolean;
+        @deviceStore.Getter('notification') notification!: boolean;
         @deviceStore.Getter('scanAllDevices') scanAllDevices!: boolean;
+        @deviceStore.Getter('version') version!: string;
         @deviceStore.Mutation('toggleSettings') toggleSettings!: void;
 
         created() {
             this.cleanDevices();
+            this.checkVersion();
             document.addEventListener('deviceready', this.onDeviceReady, false);
             const html = document.documentElement;
             html.setAttribute('onsflag-iphonex-portrait', '');
@@ -100,6 +102,8 @@
 
         onDeviceReady() {
             window.StatusBar.hide();
+            this.setBackgroundAndListeners();
+
             if (this.intro) {
                 window.ble.startStateNotifications(this.onInitializeBluetooth, this.onError);
             }
@@ -115,6 +119,24 @@
             }, 5000);
         }
 
+        checkVersion() {
+            const localVersion = window.localStorage.getItem('version') || undefined;
+            if (localVersion !== '1.0.4') {
+                this.$store.commit('deviceStore/updateIntro', false);
+                window.localStorage.setItem('version', '1.0.4');
+            }
+        }
+
+        setBackgroundAndListeners() {
+            document.addEventListener('pause', () => {
+                this.isBackground = true;
+            }, false);
+
+            document.addEventListener('resume', () => {
+                this.isBackground = false;
+            }, false);
+        }
+
         cleanDevices() {
             this.$store.commit('deviceStore/cleanDevices');
         }
@@ -126,6 +148,9 @@
                 if (this.shouldAlert(d.average) && !d.excluded) {
                     this.hasAlert = true;
 
+                    if (this.isBackground && this.notification) {
+                        this.pushNotification(d);
+                    }
                     if (!this.vibration) navigator.vibrate(200);
                     // @ts-ignore
                     if (!this.mute) navigator.notification.beep(1);
@@ -174,7 +199,18 @@
             }
         }
 
+        pushNotification(d: any) {
+            window.cordova.plugins.notification.local.schedule({
+                title: 'Please keep distance',
+                text: d.name + ' is too close',
+                icon: 'file://distance.png',
+                smallIcon: 'res://notification.png',
+                foreground: false
+            });
+        }
+
         shouldAlert(rssi: number) {
+            // For now user distance is disabled
             const userSelectedDistance = this.$store.getters['deviceStore/distance'];
             let distance = -56;
             if (userSelectedDistance === 1) {
@@ -255,10 +291,12 @@
 
         @Watch('scanAllDevices')
         onScanAllDevicesChange() {
-            window.ble.stopScan((v: any) => {
-                console.log('Scan stopped', v);
-                this.collectDevices();
-            }, this.onError);
+            if (this.intro) {
+                window.ble.stopScan((v: any) => {
+                    console.log('Scan stopped', v);
+                    this.collectDevices();
+                }, this.onError);
+            }
         }
 
         @Watch('intro')
@@ -274,7 +312,7 @@
     }
 </script>
 
-<style lang="scss">
+<style lang='scss'>
     @import './assets/scss/imports';
 
     .wrapper {
