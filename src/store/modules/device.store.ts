@@ -58,6 +58,8 @@ export const state: any = {
     intro: false,
     settings: false,
     vibration: false,
+    scanAllDevices: true,
+    version: '1.0.4',
     devicesMock: devicesMock
 };
 
@@ -68,7 +70,8 @@ const getters: GetterTree<any, any> = {
     mute: state => state.mute,
     distance: state => state.distance,
     intro: state => state.intro,
-    vibration: state => state.vibration
+    vibration: state => state.vibration,
+    scanAllDevices: state => state.scanAllDevices
 };
 
 const mutations: MutationTree<any> = {
@@ -96,15 +99,20 @@ const mutations: MutationTree<any> = {
         ];
     },
     cleanDevices(state) {
-        state.devices = [
-            ...state.devices.filter((e: any) => e.excluded)
-        ];
+        state.devices.forEach((d: any, index: number) => {
+            if (d.timestamp + 3000 < Date.now()) {
+                state.devices.splice(index, 1);
+            }
+        });
     },
     toggleSettings(state) {
         state.settings = !state.settings;
     },
     toggleVibration(state) {
         state.vibration = !state.vibration;
+    },
+    toggleScanAllDevices(state) {
+        state.scanAllDevices = !state.scanAllDevices;
     }
 };
 

@@ -88,6 +88,7 @@
         @deviceStore.Getter('intro') intro!: boolean;
         @deviceStore.Getter('vibration') vibration!: boolean;
         @deviceStore.Getter('deviceName') deviceName!: boolean;
+        @deviceStore.Getter('scanAllDevices') scanAllDevices!: boolean;
         @deviceStore.Mutation('toggleSettings') toggleSettings!: void;
 
         created() {
@@ -108,10 +109,10 @@
                 this.setAlert();
             }, 2000);
 
-            // Clear out of range devices
+            // Check and remove devices that are not emitting anything for more then 2 seconds
             setInterval(() => {
                 this.cleanDevices();
-            }, 10000);
+            }, 5000);
         }
 
         cleanDevices() {
@@ -122,36 +123,54 @@
             if (!this.intro) return;
             this.hasAlert = false;
             this.devices.some((d: any) => {
-                if (d.isDanger && !d.excluded) {
+                if (this.shouldAlert(d.average) && !d.excluded) {
                     this.hasAlert = true;
 
                     if (!this.vibration) navigator.vibrate(200);
                     // @ts-ignore
                     if (!this.mute) navigator.notification.beep(1);
                 }
-                return d.isDanger && !d.excluded;
+                return this.shouldAlert(d.average) && !d.excluded;
             });
         }
 
         collectDevices() {
-            window.ble.startScanWithOptions([this.serviceId], { reportDuplicates: true }, this.onDiscoverDevice, this.onError);
+            const serviceArray = this.scanAllDevices ? [] : [this.serviceId];
+            window.ble.startScanWithOptions(serviceArray, { reportDuplicates: true }, this.onDiscoverDevice, this.onError);
+        }
+
+        getDistance(rssi: number) {
+            const power = -65;
+            return Math.pow(10, (power - rssi) / (10 * 3)).toFixed(2);
+        }
+
+        movingAverage(match: any, d: any) {
+            const averageSize = 40;
+            if (match.rssiCollection.length > averageSize) {
+                match.rssiCollection.push(d.rssi);
+                match.rssiCollection.shift();
+            } else {
+                match.rssiCollection.push(d.rssi);
+            }
+            return match.rssiCollection.reduce((acc: number, i: any) => (acc + i), 0) / match.rssiCollection.length;
         }
 
         onDiscoverDevice(d: any) {
             if (!this.shouldAlert(d.rssi)) return;
 
             const match = this.devices.find((e: any) => e.id === d.id);
-            const distance = (d.rssi * -2.7).toFixed(2);
-            const isDanger = this.shouldAlert(d.rssi);
+            const distance = this.getDistance(d.rssi);
 
             if (!match) {
                 d.distance = distance;
-                d.isDanger = isDanger;
+                d.rssiCollection = [];
+                d.rssiCollection.push(d.rssi);
                 this.$store.commit('deviceStore/updateDevices', d);
             } else {
+                match.timestamp = Date.now();
                 match.rssi = d.rssi;
-                match.distance = distance;
-                match.isDanger = isDanger;
+                match.average = this.movingAverage(match, d);
+                match.distance = this.getDistance(match.average);
             }
         }
 
@@ -232,6 +251,14 @@
 
         onResponse(r?: any): any {
             console.log(r);
+        }
+
+        @Watch('scanAllDevices')
+        onScanAllDevicesChange() {
+            window.ble.stopScan((v: any) => {
+                console.log('Scan stopped', v);
+                this.collectDevices();
+            }, this.onError);
         }
 
         @Watch('intro')

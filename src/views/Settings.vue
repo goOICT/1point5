@@ -21,12 +21,14 @@
                     Vibration
                     <strong>{{ !vibration ? 'on' : 'off' }}</strong>
                 </li>
-                <li>
+                <li @click="toggleScanAllDevices">
                     <UiIcon
-                        :icon="bluetooth ? 'bluetooth-off' : 'bluetooth-on'"
+                        :class="!scanAllDevices ? 'on' : 'off'"
+                        class="app"
+                        icon="app"
                     />
-                    Bluetooth
-                    <strong>{{ !bluetooth ? 'on' : 'off' }}</strong>
+                    1point5 only
+                    <strong>{{ !scanAllDevices ? 'on' : 'off' }}</strong>
                 </li>
             </ul>
             <UiDistance />
@@ -92,9 +94,11 @@
         @deviceStore.Getter('excludes') excludes!: Array<any>;
         @deviceStore.Getter('mute') mute!: boolean;
         @deviceStore.Getter('vibration') vibration!: boolean;
+        @deviceStore.Getter('scanAllDevices') scanAllDevices!: boolean;
         @deviceStore.Mutation('toggleMute') toggleMute!: void;
         @deviceStore.Mutation('toggleSettings') toggleSettings!: void;
         @deviceStore.Mutation('toggleVibration') toggleVibration!: void;
+        @deviceStore.Mutation('toggleScanAllDevices') toggleScanAllDevices!: void;
 
         @Prop() bluetooth!: boolean;
 
@@ -206,6 +210,14 @@
             /deep/ svg {
                 width: 22px;
             }
+        }
+    }
+
+    .app {
+        fill: $color-blue-0;
+
+        &.off {
+            fill: $color-blue-4;
         }
     }
 </style>

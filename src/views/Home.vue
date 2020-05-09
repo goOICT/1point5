@@ -18,9 +18,14 @@
                             size="40"
                         />
                         <div class="user">
+                            {{ device.rssi }}
+                            {{ device.average }}
                             <span class="name">
                                 {{ device.name || 'Unknown device' }}
                             </span>
+                            <strong>
+                                {{ device.distance }} m
+                            </strong>
                         </div>
 
                         <UiIcon
