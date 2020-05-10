@@ -202,7 +202,7 @@
         pushNotification(d: any) {
             window.cordova.plugins.notification.local.schedule({
                 title: 'Please keep distance',
-                text: d.name + ' is too close',
+                text: (d.name || 'Unknown device') + ' is too close',
                 icon: 'file://distance.png',
                 smallIcon: 'res://notification.png',
                 foreground: false
