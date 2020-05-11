@@ -180,8 +180,23 @@
             return match.rssiCollection.reduce((acc: number, i: any) => (acc + i), 0) / match.rssiCollection.length;
         }
 
+        filterDevices(device: any) {
+            if (!this.scanAllDevices) return;
+            const devicesList = [
+                'TV',
+                'MacBook',
+                '[AV] Samsung',
+                'Charger',
+                'JBL'
+            ];
+            return devicesList.some(d => {
+                if (!device.name) return false;
+                return device.name.indexOf(d) > -1;
+            });
+        }
+
         onDiscoverDevice(d: any) {
-            if (!this.shouldAlert(d.rssi)) return;
+            if (!this.shouldAlert(d.rssi) || this.filterDevices(d)) return;
 
             const match = this.devices.find((e: any) => e.id === d.id);
             const distance = this.getDistance(d.rssi);
