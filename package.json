@@ -31,7 +31,7 @@
             "url": "https://renato.amsterdam"
         }
     ],
-    "license": "AGPL-3.0-or-later",
+    "license": "gpl-3.0",
     "private": true,
     "repository": {
         "type": "git",
