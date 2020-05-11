@@ -1,14 +1,21 @@
-# 1point5 - The app that helps you with social distancing.
->1.5 assists you with social distancing. The app scans for nearby mobile devices and it warns you when a device enters your 1.5 meter parameter. The phone vibrates and a pop-up appears. The pop up contains a graphic that can be shown to the other person. It is a friendly reminder that aims to defuse the situation.
+# 1point5
 
->This is a social distancing app and it works using Bluetooth. Devices of family members and so forth can be excluded. The parameter can be adjusted from a minimum of 1.5 meters up to 4 meters, depending on your preference or local regulation. 1.5 aims to help stop the spread of COVID-19. It is not full proof.
+## The app that helps you with social distancing.
 
+![1point5](docs/promo.png "1point5")
+
+www.onepointfive.app
+
+> 1.5 assists you with social distancing. The app scans for nearby mobile devices and it warns you when a device enters your 1.5 meter parameter. The phone vibrates and send you a notification.
+> It is a friendly reminder that aims to defuse the situation.
+>This is a social distancing app and it works using Bluetooth. Devices of family members and so forth can be excluded. 1.5 aims to help create social distance awareness.
 >Please follow the advice of the World Health Organisation and your local government.
 
+[<img src="https://onepointfive.app/assets/img/icons/apple_appstore.svg" width=120>](https://apple.co/35jhajs) [<img src="https://onepointfive.app/assets/img/icons/google_play.svg" width=120>](https://play.google.com/store/apps/details?id=app.onepointfive)
 
 ## Getting Started
  
- The app won't work when running on the browser.
+ The app won't work when running on the browser or simulators, only on a real device that has access to bluetooth.
  
  First make sure you have JAVA, Android Studio/Xcode installed.
  Check for more info: https://cordova.apache.org/docs/en/latest/guide/cli/
