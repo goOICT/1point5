@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="app.onepointfive" version="1.0.5"
+<widget id="app.onepointfive" version="1.0.6"
         xmlns="http://www.w3.org/ns/widgets"
         xmlns:android="http://schemas.android.com/apk/res/android">
     <name short="1point5">app 1point5</name>

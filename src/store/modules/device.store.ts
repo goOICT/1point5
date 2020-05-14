@@ -49,7 +49,7 @@ const mutations: MutationTree<any> = {
     },
     cleanDevices(state) {
         state.devices.forEach((d: any, index: number) => {
-            if (d.timestamp + 3000 < Date.now() && !d.excluded) {
+            if (!d.timestamp || (d.timestamp + 3000 < Date.now() && !d.excluded)) {
                 state.devices.splice(index, 1);
             }
         });

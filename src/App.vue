@@ -103,6 +103,13 @@
         onDeviceReady() {
             window.StatusBar.hide();
             this.setBackgroundAndListeners();
+            window.cordova.plugins.backgroundMode.enable();
+
+            window.cordova.plugins.backgroundMode.setDefaults({
+                title: '1point5 is running on background',
+                text: 'Scanning for nearby devices',
+                icon: 'notification'
+            });
 
             if (this.intro) {
                 window.ble.startStateNotifications(this.onInitializeBluetooth, this.onError);
@@ -130,6 +137,8 @@
         setBackgroundAndListeners() {
             document.addEventListener('pause', () => {
                 this.isBackground = true;
+                window.cordova.plugins.backgroundMode.disableBatteryOptimizations();
+                window.cordova.plugins.backgroundMode.disableWebViewOptimizations();
             }, false);
 
             document.addEventListener('resume', () => {
