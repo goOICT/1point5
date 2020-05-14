@@ -11,7 +11,7 @@ www.onepointfive.app
 >This is a social distancing app and it works using Bluetooth. Devices of family members and so forth can be excluded. 1.5 aims to help create social distance awareness.
 >Please follow the advice of the World Health Organisation and your local government.
 
-[<img src="https://onepointfive.app/assets/img/icons/apple_appstore.svg" width=120>](https://apple.co/35jhajs) [<img src="https://onepointfive.app/assets/img/icons/google_play.svg" width=120>](https://play.google.com/store/apps/details?id=app.onepointfive)
+[<img src="https://onepointfive.app/assets/img/icons/google_play.svg" width=120>](https://play.google.com/store/apps/details?id=app.onepointfive)
 
 ## Getting Started
  
