@@ -41,7 +41,7 @@
         "buefy": "^0.8.13",
         "cordova-android": "^8.1.0",
         "cordova-ios": "^5.1.1",
-        "cordova-plugin-background-mode": "^0.7.3",
+        "cordova-plugin-background-mode": "git+https://bitbucket.org/TheBosZ/cordova-plugin-run-in-background.git",
         "cordova-plugin-badge": "^0.8.8",
         "cordova-plugin-ble-central": "^1.2.4",
         "cordova-plugin-bluetoothle": "^4.5.10",
